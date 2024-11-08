@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Biblioteka.Model;
+using Microsoft.EntityFrameworkCore;
 using WebApplication2.Model;
 
 namespace WebApplication2.DataBaseContext
@@ -15,5 +16,6 @@ namespace WebApplication2.DataBaseContext
         public DbSet<Readers> Readers { get; set; }
         public DbSet<Rentals> Rentals { get; set; }
         public DbSet<Author> Author { get; set; }
+        public DbSet<Photo> Photos { get; set; }
     }
 }

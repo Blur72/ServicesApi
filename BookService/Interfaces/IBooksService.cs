@@ -5,7 +5,7 @@ namespace WebApplication2.Interfaces
 {
     public interface IBooksService
     {
-        Task<IActionResult> GetBooks(int page, int pageSize);
+        Task<IActionResult> GetBooks();
         Task<IActionResult> CreateNewBooks([FromQuery] CreateNewBooks newBooks);
         Task<IActionResult> GetBookById(int id);
         Task<IActionResult> DeleteBook(int id);

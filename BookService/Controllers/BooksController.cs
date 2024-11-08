@@ -34,9 +34,9 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
         [Route("getAllBooks")]
-        public async Task<IActionResult> GetBooks(int page, int pageSize)
+        public async Task<IActionResult> GetBooks()
         {
-            return await _booksService.GetBooks(page, pageSize);
+            return await _booksService.GetBooks();
         }
 
         [HttpPost]
@@ -57,7 +57,7 @@ namespace WebApplication2.Controllers
             return await _booksService.DeleteBook(id);
         }
 
-        [HttpGet("byGenre/{genreId}")]
+        [HttpGet("byGenre/")]
         public async Task<IActionResult> GetBooksByGenre(string genreName)
         {
             return await _booksService.GetBooksByGenre(genreName);

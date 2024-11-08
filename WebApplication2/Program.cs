@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using ProxyKit;
 using WebApplication2.DataBaseContext;
 using WebApplication2.Interfaces;
 using WebApplication2.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,14 +21,26 @@ builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IReadersService, ReadersService>();
 builder.Services.AddScoped<IRentalService, RentalService>();
 
+
+builder.Services.AddProxy();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseWhen(context => context.Request.Path.Value.Contains("/api/Books"),
+applicationBuilder => applicationBuilder.RunProxy(context =>
+context.ForwardTo("http://localhost:5141/").AddXForwardedHeaders().Send()));
+app.UseWhen(context => context.Request.Path.Value.Contains("/api/Readers"),
+applicationBuilder => applicationBuilder.RunProxy(context =>
+context.ForwardTo("https://localhost:5141/").AddXForwardedHeaders().Send()));
+app.UseWhen(context => context.Request.Path.Value.Contains("/api/Photo"),
+applicationBuilder => applicationBuilder.RunProxy(context =>
+context.ForwardTo("https://localhost:5141/").AddXForwardedHeaders().Send()));
+
 
 app.UseHttpsRedirection();
 
@@ -35,3 +49,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
